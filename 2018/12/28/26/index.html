@@ -1,0 +1,636 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head><meta name="generator" content="Hexo 3.8.0">
+    <meta charset="utf-8">
+<title>莫比乌斯反演小结 - water_mi&#39;s Blog</title>
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+
+
+
+    <meta name="description" content="这里是简介">
+<meta name="keywords" content="[C++]数论-莫比乌斯反演">
+<meta property="og:type" content="article">
+<meta property="og:title" content="莫比乌斯反演小结">
+<meta property="og:url" content="https://blog.water-mi.com/2018/12/28/26/index.html">
+<meta property="og:site_name" content="water_mi&#39;s Blog">
+<meta property="og:description" content="这里是简介">
+<meta property="og:locale" content="zh-CN">
+<meta property="og:updated_time" content="2019-01-15T07:07:48.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="莫比乌斯反演小结">
+<meta name="twitter:description" content="这里是简介">
+
+
+
+
+
+<link rel="icon" href="/images/favicon.svg">
+
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@0.7.2/css/bulma.css">
+<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.4.1/css/all.css">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Ubuntu:400,600|Source+Code+Pro">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/highlight.js@9.12.0/styles/tomorrow.css">
+
+
+    
+    
+    
+    <style>body>.footer,body>.navbar,body>.section{opacity:0}</style>
+    
+
+    
+    
+    
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/lightgallery@1.6.8/dist/css/lightgallery.min.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/justifiedGallery@3.7.0/dist/css/justifiedGallery.min.css">
+    
+
+    
+    
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/outdatedbrowser@1.1.5/outdatedbrowser/outdatedbrowser.min.css">
+
+
+    
+    
+
+    
+    
+
+<link rel="stylesheet" href="/css/back-to-top.css">
+
+
+    
+    
+
+    
+    
+    
+    
+
+    
+    
+<link rel="stylesheet" href="/css/progressbar.css">
+<script src="https://cdn.jsdelivr.net/npm/pace-js@1.0.2/pace.min.js"></script>
+
+    
+    
+    
+
+    
+
+
+<link rel="stylesheet" href="/css/style.css">
+<link rel="stylesheet" href="/css/custom.css">
+<link rel="stylesheet" href="/sources/prism.css">
+<script src="/sources/prism.js"></script>
+
+</head>
+<body class="is-2-column">
+    <nav class="navbar navbar-main">
+    <div class="container">
+        <div class="navbar-brand is-flex-center">
+            <a class="navbar-item navbar-logo" href="/">
+            
+                water_mi&#39;s Blog
+            
+            </a>
+        </div>
+        <div class="navbar-menu">
+            
+            <div class="navbar-start">
+                
+                <a class="navbar-item" href="/archives">归档</a>
+                
+                <a class="navbar-item" href="/categories">分类</a>
+                
+                <a class="navbar-item" href="/tags">标签</a>
+                
+                <a class="navbar-item" href="/friends">友链</a>
+                
+                <a class="navbar-item" href="/about">关于</a>
+                
+                <a class="navbar-item" href="/feedback">反馈</a>
+                
+            </div>
+            
+            <div class="navbar-end">
+                
+                
+                <a class="navbar-item is-hidden-tablet catalogue" title="目录" href="javascript:;">
+                    <i class="fas fa-list-ul"></i>
+                </a>
+                
+                
+                <a class="navbar-item search" title="搜索" href="javascript:;">
+                    <i class="fas fa-search"></i>
+                </a>
+                
+            </div>
+        </div>
+    </div>
+</nav>
+    
+    <section class="section">
+        <div class="container">
+            <div class="columns">
+                <div class="column my-content is-8-tablet is-8-desktop is-8-widescreen has-order-2 column-main"><div class="card">
+    
+    <div class="card-content article ">
+        
+        <div class="level article-meta is-size-7 is-uppercase is-mobile is-overflow-x-auto">
+            <div class="level-left">
+                <time class="level-item has-text-grey" datetime="2018-12-28T00:53:03.000Z">2018-12-28</time>
+                
+                <div class="level-item">
+                <a class="has-link-grey -link" href="/categories/Algorithm/">Algorithm</a>
+                </div>
+                
+                
+                <span class="level-item has-text-grey">
+                    
+                    
+                    4 分钟 读完 (大约 579 个字)
+                </span>
+                
+            </div>
+        </div>
+        
+        <h1 class="title is-size-3 is-size-4-mobile has-text-weight-normal">
+            
+                莫比乌斯反演小结
+            
+        </h1>
+        <div class="content">
+            <p>这里是简介<br><a id="more"></a></p>
+<h2 id="注意！！！！"><a href="#注意！！！！" class="headerlink" title="注意！！！！"></a>注意！！！！</h2><p>这里不是学习笔记，只是一些有关知识的总结！！</p>
+<h2 id="狄利克雷卷积（符号：-ast-）"><a href="#狄利克雷卷积（符号：-ast-）" class="headerlink" title="狄利克雷卷积（符号：$\ast$）"></a>狄利克雷卷积（符号：$\ast$）</h2><p>如果$\mathbf t=\mathbf f \ast \mathbf g$</p>
+<p>则：</p>
+<script type="math/tex; mode=display">
+\mathbf t(n)=\sum_{d|n}\mathbf f(d)g(\frac{n}{d})</script><p>狄利克雷卷积还有以下性质：</p>
+<p>交换律，结合律，分配率，等等….</p>
+<p>一个函数（$\mathbf f$）的逆（$\mathbf g$）：即$\mathbf f \ast \mathbf g= \epsilon$ 单位元$\epsilon(n)=[n==1]$ </p>
+<script type="math/tex; mode=display">
+\mathbf g(n)=\frac{1}{\mathbf f(1)}([n==1]-\sum_{d|n,d\neq1}\mathbf f(d)g(\frac{n}{d}))</script><h2 id="积性函数"><a href="#积性函数" class="headerlink" title="积性函数"></a>积性函数</h2><p>如果$\mathbf f(nm)=\mathbf f(n)\times \mathbf f(m) $ 则函数$\mathbf f$为完全积性函数。</p>
+<p>如果再加上约束条件$n\perp m$，则函数为积性函数。一个完全积性函数一定是积性函数</p>
+<p>积性函数的特殊性质：</p>
+<ol>
+<li>两个积性函数的狄利克雷卷积一定是积性函数</li>
+<li>任意一个积性函数$\mathbf f(1)=1$恒成立</li>
+<li>积性函数的逆一定是积性函数（可以在第二条性质的基础上证明）</li>
+</ol>
+<p>一些常见的积性函数有（定义$n=\prod_{i=1}^tp_i^{k_i}$，即唯一分解定理）</p>
+<p>$\sigma<em>0(n)=\prod</em>{i=1}^t(k<em>i+1)$，$\varphi(n)=\prod</em>{i=1}^tp<em>i^{k_i-1}(p_i-1)=n\prod</em>{i=1}^t(1-\frac{1}{p_i})$</p>
+<h2 id="莫比乌斯反演（摘自xgzc的博客）"><a href="#莫比乌斯反演（摘自xgzc的博客）" class="headerlink" title="莫比乌斯反演（摘自xgzc的博客）"></a>莫比乌斯反演（摘自xgzc的博客）</h2><p>定义一个函数$\mu$使得$\mu∗1=ϵ$，即$\mu$为$\mathbf 1(n)=\mathbf i\mathbf d^0(n)=1$的逆</p>
+<p>这样的话，如果$\mathbf g∗\mathbf 1=\mathbf f$，则$\mathbf f∗\mu =\mathbf g$</p>
+<p>即：如果$\mathbf f(n)=∑<em>{d|n}\mathbf g(d)$，则$\mathbf g(n)=∑</em>{d|n}\mu(d)\mathbf f(\frac nd)$</p>
+<p><del>好难啊</del></p>
+<h2 id="其他：整除分块"><a href="#其他：整除分块" class="headerlink" title="其他：整除分块"></a>其他：整除分块</h2><p>如果要你求一个东西：</p>
+<script type="math/tex; mode=display">
+\sum_{i=1}^n \lfloor\frac ni \rfloor</script><p>你可能会说，这当然是$O(n)$求啊！！！</p>
+<p>那么$n\leq 10^{14}$呢？？</p>
+<p>你可能会说，我打了个表，发现在一段连续的区间内，函数值相同。但好像没有什么关系？？</p>
+<p>不，根据前人的经验，每一个连续的区间，它的右界在$n/(n/i)$，所以，我们就可以在$O(\sqrt n)$算了。</p>
+<p>比如说：</p>
+<pre class="line-numbers"><code class="language-cpp">for(int l = 1; l &lt;= n; l = r + 1) {
+    r = n / (n / l);
+    ans += (r - l + 1) * (n / l);
+}
+</code></pre>
+
+        </div>
+        
+        <div class="level is-size-7 is-uppercase">
+            <div class="level-start">
+                <div class="level-item">
+                    <span class="is-size-6 has-text-grey has-mr-7">#</span>
+                    <a class="has-link-grey -link" href="/tags/C-数论-莫比乌斯反演/">[C++]数论-莫比乌斯反演</a>
+                </div>
+            </div>
+        </div>
+        
+        
+        
+    </div>
+</div>
+
+
+
+
+
+<div class="card card-transparent">
+    <div class="level post-navigation is-flex-wrap is-mobile">
+        
+        <div class="level-start">
+            <a class="level level-item has-link-grey  article-nav-prev" href="/2018/12/28/27/">
+                <i class="level-item fas fa-chevron-left"></i>
+                <span class="level-item">Bzoj2818 Gcd（莫比乌斯反演）</span>
+            </a>
+        </div>
+        
+        
+        <div class="level-end">
+            <a class="level level-item has-link-grey  article-nav-next" href="/2018/12/25/25/">
+                <span class="level-item">Luogu P4148 简单题（K-D Tree)</span>
+                <i class="level-item fas fa-chevron-right"></i>
+            </a>
+        </div>
+        
+    </div>
+</div>
+
+
+
+<div class="card">
+    <div class="card-content">
+        <h3 class="title is-5 has-text-weight-normal">评论</h3>
+        
+<div id="comment-container"></div>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/gitalk@1.4.1/dist/gitalk.css">
+<script src="https://cdn.jsdelivr.net/npm/gitalk@1.4.1/dist/gitalk.min.js"></script>
+<script>
+    var gitalk = new Gitalk({
+        clientID: '99c3b218e0b4321108cb',
+        clientSecret: 'fa4b5350aea691b728f36b3bc8fe22559d688817',
+        id: 'a35e4918cd6704c483ed3840871b9dcf',
+        repo: 'GitTalk',
+        owner: 'water-mi',
+        admin: "water-mi"
+    })
+    gitalk.render('comment-container')
+</script>
+
+    </div>
+</div>
+</div>
+                
+
+                
+
+
+
+
+<div class="column my-sidebar is-4-tablet is-4-desktop is-4-widescreen  has-order-3 column-right is-sticky">
+    
+        
+<div class="card widget">
+    <div class="card-content">
+        <nav class="level">
+            <div class="level-item has-text-centered">
+                <div>
+                    <img class="image is-128x128 has-mb-6" src="/sources/avatar.png" alt="water-mi">
+                    
+                    <p class="is-size-4 is-block">
+                        water-mi
+                    </p>
+                    
+                    
+                    <p class="is-size-6 is-block">
+                        Calm Down
+                    </p>
+                    
+                    
+                    <p class="is-size-6 is-flex is-flex-center has-text-grey">
+                        <i class="fas fa-map-marker-alt has-mr-7"></i>
+                        <span>Hunan Changsha, China</span>
+                    </p>
+                    
+                </div>
+            </div>
+        </nav>
+        <nav class="level is-mobile">
+            <div class="level-item has-text-centered is-marginless">
+                <div>
+                    <p class="heading">
+                        文章
+                    </p>
+                    <p class="title has-text-weight-normal">
+                        77
+                    </p>
+                </div>
+            </div>
+            <div class="level-item has-text-centered is-marginless">
+                <div>
+                    <p class="heading">
+                        分类
+                    </p>
+                    <p class="title has-text-weight-normal">
+                        4
+                    </p>
+                </div>
+            </div>
+            <div class="level-item has-text-centered is-marginless">
+                <div>
+                    <p class="heading">
+                        标签
+                    </p>
+                    <p class="title has-text-weight-normal">
+                        54
+                    </p>
+                </div>
+            </div>
+        </nav>
+        <div class="level">
+            <a class="level-item button is-link is-rounded" href="http://github.com/water-mi">
+                关注我</a>
+        </div>
+        
+        
+        <div class="level is-mobile">
+            
+            <a class="level-item button is-white is-marginless" target="_blank" title="Github" href="http://github.com/water-mi">
+                
+                <i class="fab fa-github"></i>
+                
+            </a>
+            
+            <a class="level-item button is-white is-marginless" target="_blank" title="Email me" href="mailto:13787781331@163.com">
+                
+                <i class="fa fa-fw fa-envelope"></i>
+                
+            </a>
+            
+        </div>
+        
+    </div>
+</div>
+    
+        
+<div class="card widget" id="toc">
+    <div class="card-content">
+        <div class="menu">
+            <h3 class="menu-label">
+                目录
+            </h3>
+            <ul class="menu-list"><li>
+        <a class="is-flex" href="#注意！！！！">
+        <span class="has-mr-6">1</span>
+        <span>注意！！！！</span>
+        </a></li><li>
+        <a class="is-flex" href="#狄利克雷卷积（符号：-ast-）">
+        <span class="has-mr-6">2</span>
+        <span>狄利克雷卷积（符号：$\ast$）</span>
+        </a></li><li>
+        <a class="is-flex" href="#积性函数">
+        <span class="has-mr-6">3</span>
+        <span>积性函数</span>
+        </a></li><li>
+        <a class="is-flex" href="#莫比乌斯反演（摘自xgzc的博客）">
+        <span class="has-mr-6">4</span>
+        <span>莫比乌斯反演（摘自xgzc的博客）</span>
+        </a></li><li>
+        <a class="is-flex" href="#其他：整除分块">
+        <span class="has-mr-6">5</span>
+        <span>其他：整除分块</span>
+        </a></li></ul>
+        </div>
+    </div>
+</div>
+
+    
+        
+
+
+    
+        
+<div class="card widget">
+    <div class="card-content">
+        <div class="menu">
+            <h3 class="menu-label">
+                分类
+            </h3>
+            <ul class="menu-list">
+            <li>
+        <a class="level is-marginless" href="/categories/Algorithm/">
+            <span class="level-start">
+                <span class="level-item">Algorithm</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">10</span>
+            </span>
+        </a></li><li>
+        <a class="level is-marginless" href="/categories/Diary/">
+            <span class="level-start">
+                <span class="level-item">Diary</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">2</span>
+            </span>
+        </a></li><li>
+        <a class="level is-marginless" href="/categories/Report/">
+            <span class="level-start">
+                <span class="level-item">Report</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">2</span>
+            </span>
+        </a></li><li>
+        <a class="level is-marginless" href="/categories/Solution/">
+            <span class="level-start">
+                <span class="level-item">Solution</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">62</span>
+            </span>
+        </a></li>
+            </ul>
+        </div>
+    </div>
+</div>
+    
+    
+</div>
+
+
+            </div>
+        </div>
+    </section>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/aplayer@1.10/dist/APlayer.min.css">
+<script src="https://cdn.jsdelivr.net/npm/aplayer@1.10/dist/APlayer.min.js"></script>
+<div id="aplayer" class="aplayer" data-id="112875926" data-server="netease" data-type="playlist" data-fixed="true" data-listfolded="true" data-volume="0.4">
+</div>
+<script src="https://unpkg.com/meting@1.2/dist/Meting.min.js"></script>
+<footer class="footer">
+    <div class="container">
+        <div class="level">
+            <div class="level-start has-text-centered-mobile">
+                <!--<a class="footer-logo is-block has-mb-6" href="/">
+	            
+                    water_mi&#39;s Blog
+                
+                </a>-->
+                <p class="is-size-7">
+                    &copy; 2018 - 2019
+                    water_mi
+                </p>
+				<p class="is-size-7">
+                    Powered by Hexo & Icarus
+                </p>
+            </div>
+            <div class="level-end">
+            
+                <div class="field has-addons is-flex-center-mobile has-mt-5-mobile is-flex-wrap is-flex-middle">
+                
+                
+                <p class="control">
+                    <a class="button is-white is-large" target="_blank" title="Creative Commons" href="https://creativecommons.org/">
+                        
+                        <i class="fab fa-creative-commons"></i>
+                        
+                    </a>
+                </p>
+                
+                <p class="control">
+                    <a class="button is-white is-large" target="_blank" title="Attribution" href="https://creativecommons.org/licenses/by-nc-nd/4.0/">
+                        
+                        <i class="fab fa-creative-commons-by"></i>
+                        
+                    </a>
+                </p>
+                
+                <p class="control">
+                    <a class="button is-white is-large" target="_blank" title="NonCommercial" href="https://creativecommons.org/licenses/by-nc-nd/4.0/">
+                        
+                        <i class="fab fa-creative-commons-nc"></i>
+                        
+                    </a>
+                </p>
+                
+                <p class="control">
+                    <a class="button is-white is-large" target="_blank" title="NoDerivatives" href="https://creativecommons.org/licenses/by-nc-nd/4.0/">
+                        
+                        <i class="fab fa-creative-commons-nd"></i>
+                        
+                    </a>
+                </p>
+                
+                </div>
+            
+            </div>
+        </div>
+    </div>
+</footer>
+
+    <script src="https://cdn.jsdelivr.net/npm/jquery@3.3.1/dist/jquery.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/moment@2.22.2/min/moment-with-locales.min.js"></script>
+<script>moment.locale("zh-CN");</script>
+
+
+    
+    
+    
+    <script src="/js/animation.js"></script>
+    
+
+    
+    
+    
+    <script src="https://cdn.jsdelivr.net/npm/lightgallery@1.6.8/dist/js/lightgallery.min.js" defer></script>
+    <script src="https://cdn.jsdelivr.net/npm/justifiedGallery@3.7.0/dist/js/jquery.justifiedGallery.min.js" defer></script>
+    <script src="/js/gallery.js" defer></script>
+    
+
+    
+    
+
+<div id="outdated">
+    <h6>Your browser is out-of-date!</h6>
+    <p>Update your browser to view this website correctly. <a id="btnUpdateBrowser" href="http://outdatedbrowser.com/">Update
+            my browser now </a></p>
+    <p class="last"><a href="#" id="btnCloseUpdateBrowser" title="Close">&times;</a></p>
+</div>
+<script src="https://cdn.jsdelivr.net/npm/outdatedbrowser@1.1.5/outdatedbrowser/outdatedbrowser.min.js" defer></script>
+<script>
+    document.addEventListener("DOMContentLoaded", function () {
+        outdatedBrowser({
+            bgColor: '#f25648',
+            color: '#ffffff',
+            lowerThan: 'flex'
+        });
+    });
+</script>
+
+
+    
+    
+<script src="https://cdn.jsdelivr.net/npm/mathjax@2.7.5/unpacked/MathJax.js?config=TeX-MML-AM_CHTML" defer></script>
+<script>
+document.addEventListener('DOMContentLoaded', function () {
+    MathJax.Hub.Config({
+        tex2jax: {inlineMath: [['$', '$']], displayMath: [['$$', '$$']]},
+        TeX: {equationNumbers: {autoNumber: "AMS"},
+              showProcessingMessages: false,
+              messageStyle: 'none'},
+        "HTML-CSS": {matchFontHeight: false},
+        SVG: {matchFontHeight: false},
+        CommonHTML: {matchFontHeight: false}
+    });
+ });
+</script>
+
+
+    
+    
+
+<a id="back-to-top" title="回到顶端" href="javascript:;">
+    <i class="fas fa-chevron-up"></i>
+</a>
+<script src="/js/back-to-top.js" defer></script>
+
+
+    
+    
+
+    
+    
+    
+    
+
+    
+    
+    
+    
+    
+    <script src="https://cdn.jsdelivr.net/npm/clipboard@2.0.4/dist/clipboard.min.js" defer></script>
+    <script src="/js/clipboard.js" defer></script>
+    
+
+    
+
+
+<script src="/js/main.js" defer></script>
+
+    
+    <div class="searchbox ins-search">
+    <div class="searchbox-container ins-search-container">
+        <div class="searchbox-input-wrapper">
+            <input type="text" class="searchbox-input ins-search-input" placeholder="想要查找什么...">
+            <span class="searchbox-close ins-close ins-selectable"><i class="fa fa-times-circle"></i></span>
+        </div>
+        <div class="searchbox-result-wrapper ins-section-wrapper">
+            <div class="ins-section-container"></div>
+        </div>
+    </div>
+</div>
+<script>
+    (function (window) {
+        var INSIGHT_CONFIG = {
+            TRANSLATION: {
+                POSTS: '文章',
+                PAGES: '页面',
+                CATEGORIES: '分类',
+                TAGS: '标签',
+                UNTITLED: '(无标题)',
+            },
+            CONTENT_URL: '/content.json',
+        };
+        window.INSIGHT_CONFIG = INSIGHT_CONFIG;
+    })(window);
+</script>
+<script src="/js/insight.js" defer></script>
+<link rel="stylesheet" href="/css/search.css">
+<link rel="stylesheet" href="/css/insight.css">
+    
+</body>
+</html>

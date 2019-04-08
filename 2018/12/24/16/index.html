@@ -1,0 +1,790 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head><meta name="generator" content="Hexo 3.8.0">
+    <meta charset="utf-8">
+<title>NOIP2018 提高组题解 - water_mi&#39;s Blog</title>
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+
+
+
+    <meta name="description" content="这里是简介">
+<meta name="keywords" content="[竞赛]NOIP">
+<meta property="og:type" content="article">
+<meta property="og:title" content="NOIP2018 提高组题解">
+<meta property="og:url" content="https://blog.water-mi.com/2018/12/24/16/index.html">
+<meta property="og:site_name" content="water_mi&#39;s Blog">
+<meta property="og:description" content="这里是简介">
+<meta property="og:locale" content="zh-CN">
+<meta property="og:updated_time" content="2019-01-15T07:07:18.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="NOIP2018 提高组题解">
+<meta name="twitter:description" content="这里是简介">
+
+
+
+
+
+<link rel="icon" href="/images/favicon.svg">
+
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@0.7.2/css/bulma.css">
+<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.4.1/css/all.css">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Ubuntu:400,600|Source+Code+Pro">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/highlight.js@9.12.0/styles/tomorrow.css">
+
+
+    
+    
+    
+    <style>body>.footer,body>.navbar,body>.section{opacity:0}</style>
+    
+
+    
+    
+    
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/lightgallery@1.6.8/dist/css/lightgallery.min.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/justifiedGallery@3.7.0/dist/css/justifiedGallery.min.css">
+    
+
+    
+    
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/outdatedbrowser@1.1.5/outdatedbrowser/outdatedbrowser.min.css">
+
+
+    
+    
+
+    
+    
+
+<link rel="stylesheet" href="/css/back-to-top.css">
+
+
+    
+    
+
+    
+    
+    
+    
+
+    
+    
+<link rel="stylesheet" href="/css/progressbar.css">
+<script src="https://cdn.jsdelivr.net/npm/pace-js@1.0.2/pace.min.js"></script>
+
+    
+    
+    
+
+    
+
+
+<link rel="stylesheet" href="/css/style.css">
+<link rel="stylesheet" href="/css/custom.css">
+<link rel="stylesheet" href="/sources/prism.css">
+<script src="/sources/prism.js"></script>
+
+</head>
+<body class="is-2-column">
+    <nav class="navbar navbar-main">
+    <div class="container">
+        <div class="navbar-brand is-flex-center">
+            <a class="navbar-item navbar-logo" href="/">
+            
+                water_mi&#39;s Blog
+            
+            </a>
+        </div>
+        <div class="navbar-menu">
+            
+            <div class="navbar-start">
+                
+                <a class="navbar-item" href="/archives">归档</a>
+                
+                <a class="navbar-item" href="/categories">分类</a>
+                
+                <a class="navbar-item" href="/tags">标签</a>
+                
+                <a class="navbar-item" href="/friends">友链</a>
+                
+                <a class="navbar-item" href="/about">关于</a>
+                
+                <a class="navbar-item" href="/feedback">反馈</a>
+                
+            </div>
+            
+            <div class="navbar-end">
+                
+                
+                <a class="navbar-item is-hidden-tablet catalogue" title="目录" href="javascript:;">
+                    <i class="fas fa-list-ul"></i>
+                </a>
+                
+                
+                <a class="navbar-item search" title="搜索" href="javascript:;">
+                    <i class="fas fa-search"></i>
+                </a>
+                
+            </div>
+        </div>
+    </div>
+</nav>
+    
+    <section class="section">
+        <div class="container">
+            <div class="columns">
+                <div class="column my-content is-8-tablet is-8-desktop is-8-widescreen has-order-2 column-main"><div class="card">
+    
+    <div class="card-content article ">
+        
+        <div class="level article-meta is-size-7 is-uppercase is-mobile is-overflow-x-auto">
+            <div class="level-left">
+                <time class="level-item has-text-grey" datetime="2018-12-24T04:36:35.000Z">2018-12-24</time>
+                
+                <div class="level-item">
+                <a class="has-link-grey -link" href="/categories/Solution/">Solution</a>
+                </div>
+                
+                
+                <span class="level-item has-text-grey">
+                    
+                    
+                    8 分钟 读完 (大约 1183 个字)
+                </span>
+                
+            </div>
+        </div>
+        
+        <h1 class="title is-size-3 is-size-4-mobile has-text-weight-normal">
+            
+                NOIP2018 提高组题解
+            
+        </h1>
+        <div class="content">
+            <p>这里是简介<br><a id="more"></a></p>
+<h2 id="Day1"><a href="#Day1" class="headerlink" title="Day1"></a>Day1</h2><h3 id="T1"><a href="#T1" class="headerlink" title="T1"></a>T1</h3><p>　　据说是原题积木大赛，但是考场上蠢了，只会写数据结构，于是写了一个线段树$+$堆$+$贪心，先选出最小的，然后区间修改，然后把左右两端区间的最小值丢进堆里，不停从堆中去最小值更新即可（模拟题）</p>
+<pre class="line-numbers"><code class="language-cpp">#include &lt;cstdio&gt;
+#include &lt;cstring&gt;
+#include &lt;iostream&gt;
+#include &lt;algorithm&gt;
+using std::pop_heap; using std::push_heap;
+using std::greater; using std::min;
+#define file(a) freopen(a&quot;.in&quot;, &quot;r&quot;, stdin); freopen(a&quot;.out&quot;, &quot;w&quot;, stdout);
+typedef long long ll;
+
+template &lt;typename T&gt;
+inline void read(T &amp;x) {
+    x = 0; char ch = getchar(); int f = 1;
+    while(ch &lt; &#39;0&#39; || ch &gt; &#39;9&#39;) { if(ch == &#39;-&#39;) f = -f; ch = getchar(); }
+    while(ch &gt;= &#39;0&#39; &amp;&amp; ch &lt;= &#39;9&#39;) x = x * 10 + ch - &#39;0&#39;, ch = getchar();
+    x *= f;
+}
+
+const int N = 1e5 + 10, LogN = 20, Inf = 1e9 + 7;
+int n, d[N];
+struct Range {
+    int minval, site, l, r;
+    inline bool operator &lt; (const Range &amp;a) const {
+        return minval &lt; a.minval;
+    }
+    inline bool operator &gt; (const Range &amp;a) const {
+        return minval &gt; a.minval;
+    }
+};
+Range val[N &lt;&lt; 2]; int add[N &lt;&lt; 2];
+struct Heap {
+    Range h[N]; int siz;
+    void push(Range x) { h[++siz] = x, push_heap(&amp;h[1], &amp;h[siz + 1], greater&lt;Range&gt;()); }
+    void pop() { pop_heap(&amp;h[1], &amp;h[siz + 1], greater&lt;Range&gt;()), --siz; }
+    inline bool empty() { return siz == 0; }
+    inline int size() { return siz; }
+    inline Range top() { return h[1]; }
+}q;
+inline void pushup(int o, int lc, int rc) {
+    val[o] = min(val[lc], val[rc]);
+}
+inline void pushdown(int o, int lc, int rc) {
+    if(add[o]) {
+        val[lc].minval += add[o], val[rc].minval += add[o];
+        add[lc] += add[o], add[rc] += add[o], add[o] = 0;
+    }
+}
+void build(int o = 1, int l = 1, int r = n) {
+    if(l == r) { val[o] = (Range){d[l], l, l, l}; return ; }
+    int mid = (l + r) &gt;&gt; 1, lc = o &lt;&lt; 1, rc = lc | 1;
+    build(lc, l, mid), build(rc, mid + 1, r), pushup(o, lc, rc);
+}
+void modify(int ml, int mr, int k, int o = 1, int l = 1, int r = n) {
+    if(ml &gt; mr) return ;
+    if(l &gt;= ml &amp;&amp; r &lt;= mr) {
+        val[o].minval += k, add[o] += k;
+        return ;
+    } int mid = (l + r) &gt;&gt; 1, lc = o &lt;&lt; 1, rc = lc | 1;
+    pushdown(o, lc, rc);
+    if(ml &lt;= mid) modify(ml, mr, k, lc, l, mid);
+    if(mr &gt; mid) modify(ml, mr, k, rc, mid + 1, r);
+    pushup(o, lc, rc);
+}
+Range query(int ml, int mr, int o = 1, int l = 1, int r = n) {
+    if(ml &gt; mr) return (Range){Inf,0,0,0};
+    if(l &gt;= ml &amp;&amp; r &lt;= mr) return val[o];
+    int mid = (l + r) &gt;&gt; 1, lc = o &lt;&lt; 1, rc = lc | 1; Range val = (Range){Inf,0,0,0};
+    pushdown(o, lc, rc);
+    if(ml &lt;= mid) val = query(ml, mr, lc, l, mid);
+    if(mr &gt; mid) val = min(val, query(ml, mr, rc, mid + 1, r));
+    return val;
+}
+
+int main () {
+    file(&quot;road&quot;);
+    read(n);
+    for(int i = 1; i &lt;= n; ++i) read(d[i]);
+    build();
+    int tmpn = n, ret = 0; Range now = val[1];
+    now.l = 1, now.r = n; q.push(now);
+    while(tmpn &amp;&amp; q.size()) {
+        now = q.top(), q.pop(); --tmpn;
+        ret += now.minval;
+        modify(now.l, now.r, -now.minval);
+        Range l = query(now.l, now.site - 1), r = query(now.site + 1, now.r);
+        l.l = now.l, l.r = now.site - 1, r.l = now.site + 1, r.r = now.r;
+        q.push(l), q.push(r);
+    } printf(&quot;%d\n&quot;, ret);
+    return 0;
+}
+</code></pre>
+<h3 id="T2"><a href="#T2" class="headerlink" title="T2"></a>T2</h3><p>　　不难发现，两个硬币系统是等价的当且仅当其中的某些硬币能被除自己以外的硬币凑出来。完全背包强制不选自己就行了。</p>
+<pre class="line-numbers"><code class="language-cpp">#include &lt;cstdio&gt;
+#include &lt;cstring&gt;
+#include &lt;algorithm&gt;
+using std::max; using std::sort;
+#define file(a) freopen(a&quot;.in&quot;, &quot;r&quot;, stdin); freopen(a&quot;.out&quot;, &quot;w&quot;, stdout);
+typedef long long ll;
+
+template &lt;typename T&gt;
+inline void read(T &amp;x) {
+    x = 0; char ch = getchar(); int f = 1;
+    while(ch &lt; &#39;0&#39; || ch &gt; &#39;9&#39;) { if(ch == &#39;-&#39;) f = -f; ch = getchar(); }
+    while(ch &gt;= &#39;0&#39; &amp;&amp; ch &lt;= &#39;9&#39;) x = x * 10 + ch - &#39;0&#39;, ch = getchar();
+    x *= f;
+}
+
+const int N = 1e2 + 10, M = 2.5e4 + 10;
+int t, n, a[N], f[M];
+
+int main () {
+    file(&quot;money&quot;);
+    read(t);
+    while(t--) {
+        read(n); int ret = 0, m = 0;
+        for(int i = 1; i &lt;= n; ++i) read(a[i]), m = max(m, a[i]);
+        memset(f, 0, sizeof f), sort(&amp;a[1], &amp;a[n + 1]);
+        for(int i = 1; i &lt;= n; ++i) {
+            for(int j = a[i] + 1; j &lt;= m; ++j)
+                f[j] |= f[j - a[i]];
+            if(!f[a[i]]) {
+                ++ret, f[a[i]] = 1;
+                for(int j = a[i]; j &lt;= m; ++j)
+                    f[j] |= f[j - a[i]];
+            }
+        }
+        printf(&quot;%d\n&quot;, ret);
+    }
+    return 0;
+}
+</code></pre>
+<h3 id="T3"><a href="#T3" class="headerlink" title="T3"></a>T3</h3><p>　　显然，这种最小值最大可以二分答案，考虑如何$check$，不妨考虑树形$dp$，设$f[u]$表示在$u$的子树中选一条权值和最大的路径，对于一个子节点$v$，如果$f[v]+dis[u][v]$满足，显然可以选，然后在考虑不满足的情况，显然是选择两条路径拼接在一起，可以用$set$+二分搞（其实容易被卡常）。</p>
+<pre class="line-numbers"><code class="language-cpp">#include &lt;set&gt;
+#include &lt;cstdio&gt;
+#include &lt;cstring&gt;
+#include &lt;algorithm&gt;
+using std::max; using std::min; using std::sort;
+#define file(a) freopen(a&quot;.in&quot;, &quot;r&quot;, stdin); freopen(a&quot;.out&quot;, &quot;w&quot;, stdout);
+typedef long long ll;
+using std::multiset;
+
+template &lt;typename T&gt;
+inline void read(T &amp;x) {
+    x = 0; char ch = getchar(); int f = 1;
+    while(ch &lt; &#39;0&#39; || ch &gt; &#39;9&#39;) { if(ch == &#39;-&#39;) f = -f; ch = getchar(); }
+    while(ch &gt;= &#39;0&#39; &amp;&amp; ch &lt;= &#39;9&#39;) x = x * 10 + ch - &#39;0&#39;, ch = getchar();
+    x *= f;
+}
+
+const int N = 5e4 + 10, Inf = 1e9 + 7;
+int n, m, g, k;
+int cnt, from[N], to[N &lt;&lt; 1], dis[N &lt;&lt; 1], nxt[N &lt;&lt; 1];
+int f[N], st[N]; multiset&lt;int&gt; s; multiset&lt;int&gt;::iterator it;
+int l, r;
+inline void addEdge(int u, int v, int w) {
+    to[++cnt] = v, nxt[cnt] = from[u], dis[cnt] = w, from[u] = cnt;
+}
+
+void doit (int u, int fa) {
+    for(int i = from[u]; i; i = nxt[i])
+        if(to[i] != fa) doit(to[i], u);
+    int top = 0;
+    for(int i = from[u]; i; i = nxt[i]) {
+        int v = to[i]; if(v == fa) continue;
+        f[v] += dis[i];
+        if(f[v] &gt;= g) ++k;
+        else st[++top] = f[v];
+    } sort(&amp;st[1], &amp;st[top + 1]), s.clear();
+    for(int i = 1; i &lt;= top; ++i) {
+        it = s.lower_bound(g - st[i]);
+        if(it != s.end()) s.erase(it), ++k;
+        else s.insert(st[i]);
+    }
+    f[u] = s.size() ? *s.rbegin() : 0;
+}
+
+int main () {
+    file(&quot;track&quot;);
+    read(n), read(m); 
+    for(int i = 1, u, v, w; i &lt; n; ++i) {
+        read(u), read(v), read(w), r += w;
+        addEdge(u, v, w), addEdge(v, u, w);
+    } r /= m; int ret = 0;
+    while(l &lt;= r) {
+        g = (l + r) &gt;&gt; 1, k = 0;
+        doit(1, 0);
+        if(k &gt;= m) ret = g, l = g + 1;
+        else r = g - 1;
+    } printf(&quot;%d\n&quot;, ret);
+    return 0;
+}
+</code></pre>
+
+        </div>
+        
+        <div class="level is-size-7 is-uppercase">
+            <div class="level-start">
+                <div class="level-item">
+                    <span class="is-size-6 has-text-grey has-mr-7">#</span>
+                    <a class="has-link-grey -link" href="/tags/竞赛-NOIP/">[竞赛]NOIP</a>
+                </div>
+            </div>
+        </div>
+        
+        
+        
+    </div>
+</div>
+
+
+
+
+
+<div class="card card-transparent">
+    <div class="level post-navigation is-flex-wrap is-mobile">
+        
+        <div class="level-start">
+            <a class="level level-item has-link-grey  article-nav-prev" href="/2018/12/24/17/">
+                <i class="level-item fas fa-chevron-left"></i>
+                <span class="level-item">Bzoj 3498 Cakes（三元环）</span>
+            </a>
+        </div>
+        
+        
+        <div class="level-end">
+            <a class="level level-item has-link-grey  article-nav-next" href="/2018/12/24/15/">
+                <span class="level-item">NOIP2018游记（更新完毕）</span>
+                <i class="level-item fas fa-chevron-right"></i>
+            </a>
+        </div>
+        
+    </div>
+</div>
+
+
+
+<div class="card">
+    <div class="card-content">
+        <h3 class="title is-5 has-text-weight-normal">评论</h3>
+        
+<div id="comment-container"></div>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/gitalk@1.4.1/dist/gitalk.css">
+<script src="https://cdn.jsdelivr.net/npm/gitalk@1.4.1/dist/gitalk.min.js"></script>
+<script>
+    var gitalk = new Gitalk({
+        clientID: '99c3b218e0b4321108cb',
+        clientSecret: 'fa4b5350aea691b728f36b3bc8fe22559d688817',
+        id: 'a23d53c5b06271acf97307c3854b7ab4',
+        repo: 'GitTalk',
+        owner: 'water-mi',
+        admin: "water-mi"
+    })
+    gitalk.render('comment-container')
+</script>
+
+    </div>
+</div>
+</div>
+                
+
+                
+
+
+
+
+<div class="column my-sidebar is-4-tablet is-4-desktop is-4-widescreen  has-order-3 column-right is-sticky">
+    
+        
+<div class="card widget">
+    <div class="card-content">
+        <nav class="level">
+            <div class="level-item has-text-centered">
+                <div>
+                    <img class="image is-128x128 has-mb-6" src="/sources/avatar.png" alt="water-mi">
+                    
+                    <p class="is-size-4 is-block">
+                        water-mi
+                    </p>
+                    
+                    
+                    <p class="is-size-6 is-block">
+                        Calm Down
+                    </p>
+                    
+                    
+                    <p class="is-size-6 is-flex is-flex-center has-text-grey">
+                        <i class="fas fa-map-marker-alt has-mr-7"></i>
+                        <span>Hunan Changsha, China</span>
+                    </p>
+                    
+                </div>
+            </div>
+        </nav>
+        <nav class="level is-mobile">
+            <div class="level-item has-text-centered is-marginless">
+                <div>
+                    <p class="heading">
+                        文章
+                    </p>
+                    <p class="title has-text-weight-normal">
+                        77
+                    </p>
+                </div>
+            </div>
+            <div class="level-item has-text-centered is-marginless">
+                <div>
+                    <p class="heading">
+                        分类
+                    </p>
+                    <p class="title has-text-weight-normal">
+                        4
+                    </p>
+                </div>
+            </div>
+            <div class="level-item has-text-centered is-marginless">
+                <div>
+                    <p class="heading">
+                        标签
+                    </p>
+                    <p class="title has-text-weight-normal">
+                        54
+                    </p>
+                </div>
+            </div>
+        </nav>
+        <div class="level">
+            <a class="level-item button is-link is-rounded" href="http://github.com/water-mi">
+                关注我</a>
+        </div>
+        
+        
+        <div class="level is-mobile">
+            
+            <a class="level-item button is-white is-marginless" target="_blank" title="Github" href="http://github.com/water-mi">
+                
+                <i class="fab fa-github"></i>
+                
+            </a>
+            
+            <a class="level-item button is-white is-marginless" target="_blank" title="Email me" href="mailto:13787781331@163.com">
+                
+                <i class="fa fa-fw fa-envelope"></i>
+                
+            </a>
+            
+        </div>
+        
+    </div>
+</div>
+    
+        
+<div class="card widget" id="toc">
+    <div class="card-content">
+        <div class="menu">
+            <h3 class="menu-label">
+                目录
+            </h3>
+            <ul class="menu-list"><li>
+        <a class="is-flex" href="#Day1">
+        <span class="has-mr-6">1</span>
+        <span>Day1</span>
+        </a><ul class="menu-list"><li>
+        <a class="is-flex" href="#T1">
+        <span class="has-mr-6">1.1</span>
+        <span>T1</span>
+        </a></li><li>
+        <a class="is-flex" href="#T2">
+        <span class="has-mr-6">1.2</span>
+        <span>T2</span>
+        </a></li><li>
+        <a class="is-flex" href="#T3">
+        <span class="has-mr-6">1.3</span>
+        <span>T3</span>
+        </a></li></ul></li></ul>
+        </div>
+    </div>
+</div>
+
+    
+        
+
+
+    
+        
+<div class="card widget">
+    <div class="card-content">
+        <div class="menu">
+            <h3 class="menu-label">
+                分类
+            </h3>
+            <ul class="menu-list">
+            <li>
+        <a class="level is-marginless" href="/categories/Algorithm/">
+            <span class="level-start">
+                <span class="level-item">Algorithm</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">10</span>
+            </span>
+        </a></li><li>
+        <a class="level is-marginless" href="/categories/Diary/">
+            <span class="level-start">
+                <span class="level-item">Diary</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">2</span>
+            </span>
+        </a></li><li>
+        <a class="level is-marginless" href="/categories/Report/">
+            <span class="level-start">
+                <span class="level-item">Report</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">2</span>
+            </span>
+        </a></li><li>
+        <a class="level is-marginless" href="/categories/Solution/">
+            <span class="level-start">
+                <span class="level-item">Solution</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">62</span>
+            </span>
+        </a></li>
+            </ul>
+        </div>
+    </div>
+</div>
+    
+    
+</div>
+
+
+            </div>
+        </div>
+    </section>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/aplayer@1.10/dist/APlayer.min.css">
+<script src="https://cdn.jsdelivr.net/npm/aplayer@1.10/dist/APlayer.min.js"></script>
+<div id="aplayer" class="aplayer" data-id="112875926" data-server="netease" data-type="playlist" data-fixed="true" data-listfolded="true" data-volume="0.4">
+</div>
+<script src="https://unpkg.com/meting@1.2/dist/Meting.min.js"></script>
+<footer class="footer">
+    <div class="container">
+        <div class="level">
+            <div class="level-start has-text-centered-mobile">
+                <!--<a class="footer-logo is-block has-mb-6" href="/">
+	            
+                    water_mi&#39;s Blog
+                
+                </a>-->
+                <p class="is-size-7">
+                    &copy; 2018 - 2019
+                    water_mi
+                </p>
+				<p class="is-size-7">
+                    Powered by Hexo & Icarus
+                </p>
+            </div>
+            <div class="level-end">
+            
+                <div class="field has-addons is-flex-center-mobile has-mt-5-mobile is-flex-wrap is-flex-middle">
+                
+                
+                <p class="control">
+                    <a class="button is-white is-large" target="_blank" title="Creative Commons" href="https://creativecommons.org/">
+                        
+                        <i class="fab fa-creative-commons"></i>
+                        
+                    </a>
+                </p>
+                
+                <p class="control">
+                    <a class="button is-white is-large" target="_blank" title="Attribution" href="https://creativecommons.org/licenses/by-nc-nd/4.0/">
+                        
+                        <i class="fab fa-creative-commons-by"></i>
+                        
+                    </a>
+                </p>
+                
+                <p class="control">
+                    <a class="button is-white is-large" target="_blank" title="NonCommercial" href="https://creativecommons.org/licenses/by-nc-nd/4.0/">
+                        
+                        <i class="fab fa-creative-commons-nc"></i>
+                        
+                    </a>
+                </p>
+                
+                <p class="control">
+                    <a class="button is-white is-large" target="_blank" title="NoDerivatives" href="https://creativecommons.org/licenses/by-nc-nd/4.0/">
+                        
+                        <i class="fab fa-creative-commons-nd"></i>
+                        
+                    </a>
+                </p>
+                
+                </div>
+            
+            </div>
+        </div>
+    </div>
+</footer>
+
+    <script src="https://cdn.jsdelivr.net/npm/jquery@3.3.1/dist/jquery.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/moment@2.22.2/min/moment-with-locales.min.js"></script>
+<script>moment.locale("zh-CN");</script>
+
+
+    
+    
+    
+    <script src="/js/animation.js"></script>
+    
+
+    
+    
+    
+    <script src="https://cdn.jsdelivr.net/npm/lightgallery@1.6.8/dist/js/lightgallery.min.js" defer></script>
+    <script src="https://cdn.jsdelivr.net/npm/justifiedGallery@3.7.0/dist/js/jquery.justifiedGallery.min.js" defer></script>
+    <script src="/js/gallery.js" defer></script>
+    
+
+    
+    
+
+<div id="outdated">
+    <h6>Your browser is out-of-date!</h6>
+    <p>Update your browser to view this website correctly. <a id="btnUpdateBrowser" href="http://outdatedbrowser.com/">Update
+            my browser now </a></p>
+    <p class="last"><a href="#" id="btnCloseUpdateBrowser" title="Close">&times;</a></p>
+</div>
+<script src="https://cdn.jsdelivr.net/npm/outdatedbrowser@1.1.5/outdatedbrowser/outdatedbrowser.min.js" defer></script>
+<script>
+    document.addEventListener("DOMContentLoaded", function () {
+        outdatedBrowser({
+            bgColor: '#f25648',
+            color: '#ffffff',
+            lowerThan: 'flex'
+        });
+    });
+</script>
+
+
+    
+    
+<script src="https://cdn.jsdelivr.net/npm/mathjax@2.7.5/unpacked/MathJax.js?config=TeX-MML-AM_CHTML" defer></script>
+<script>
+document.addEventListener('DOMContentLoaded', function () {
+    MathJax.Hub.Config({
+        tex2jax: {inlineMath: [['$', '$']], displayMath: [['$$', '$$']]},
+        TeX: {equationNumbers: {autoNumber: "AMS"},
+              showProcessingMessages: false,
+              messageStyle: 'none'},
+        "HTML-CSS": {matchFontHeight: false},
+        SVG: {matchFontHeight: false},
+        CommonHTML: {matchFontHeight: false}
+    });
+ });
+</script>
+
+
+    
+    
+
+<a id="back-to-top" title="回到顶端" href="javascript:;">
+    <i class="fas fa-chevron-up"></i>
+</a>
+<script src="/js/back-to-top.js" defer></script>
+
+
+    
+    
+
+    
+    
+    
+    
+
+    
+    
+    
+    
+    
+    <script src="https://cdn.jsdelivr.net/npm/clipboard@2.0.4/dist/clipboard.min.js" defer></script>
+    <script src="/js/clipboard.js" defer></script>
+    
+
+    
+
+
+<script src="/js/main.js" defer></script>
+
+    
+    <div class="searchbox ins-search">
+    <div class="searchbox-container ins-search-container">
+        <div class="searchbox-input-wrapper">
+            <input type="text" class="searchbox-input ins-search-input" placeholder="想要查找什么...">
+            <span class="searchbox-close ins-close ins-selectable"><i class="fa fa-times-circle"></i></span>
+        </div>
+        <div class="searchbox-result-wrapper ins-section-wrapper">
+            <div class="ins-section-container"></div>
+        </div>
+    </div>
+</div>
+<script>
+    (function (window) {
+        var INSIGHT_CONFIG = {
+            TRANSLATION: {
+                POSTS: '文章',
+                PAGES: '页面',
+                CATEGORIES: '分类',
+                TAGS: '标签',
+                UNTITLED: '(无标题)',
+            },
+            CONTENT_URL: '/content.json',
+        };
+        window.INSIGHT_CONFIG = INSIGHT_CONFIG;
+    })(window);
+</script>
+<script src="/js/insight.js" defer></script>
+<link rel="stylesheet" href="/css/search.css">
+<link rel="stylesheet" href="/css/insight.css">
+    
+</body>
+</html>

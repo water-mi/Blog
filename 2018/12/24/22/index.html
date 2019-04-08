@@ -1,0 +1,660 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head><meta name="generator" content="Hexo 3.8.0">
+    <meta charset="utf-8">
+<title>CodeForces 809D Hitchhiking in the Baltic States（FHQ-Treap） - water_mi&#39;s Blog</title>
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+
+
+
+    <meta name="description" content="这里是简介">
+<meta name="keywords" content="[C++]数据结构-平衡树">
+<meta property="og:type" content="article">
+<meta property="og:title" content="CodeForces 809D Hitchhiking in the Baltic States（FHQ-Treap）">
+<meta property="og:url" content="https://blog.water-mi.com/2018/12/24/22/index.html">
+<meta property="og:site_name" content="water_mi&#39;s Blog">
+<meta property="og:description" content="这里是简介">
+<meta property="og:locale" content="zh-CN">
+<meta property="og:updated_time" content="2019-01-15T07:07:36.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="CodeForces 809D Hitchhiking in the Baltic States（FHQ-Treap）">
+<meta name="twitter:description" content="这里是简介">
+
+
+
+
+
+<link rel="icon" href="/images/favicon.svg">
+
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@0.7.2/css/bulma.css">
+<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.4.1/css/all.css">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Ubuntu:400,600|Source+Code+Pro">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/highlight.js@9.12.0/styles/tomorrow.css">
+
+
+    
+    
+    
+    <style>body>.footer,body>.navbar,body>.section{opacity:0}</style>
+    
+
+    
+    
+    
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/lightgallery@1.6.8/dist/css/lightgallery.min.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/justifiedGallery@3.7.0/dist/css/justifiedGallery.min.css">
+    
+
+    
+    
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/outdatedbrowser@1.1.5/outdatedbrowser/outdatedbrowser.min.css">
+
+
+    
+    
+
+    
+    
+
+<link rel="stylesheet" href="/css/back-to-top.css">
+
+
+    
+    
+
+    
+    
+    
+    
+
+    
+    
+<link rel="stylesheet" href="/css/progressbar.css">
+<script src="https://cdn.jsdelivr.net/npm/pace-js@1.0.2/pace.min.js"></script>
+
+    
+    
+    
+
+    
+
+
+<link rel="stylesheet" href="/css/style.css">
+<link rel="stylesheet" href="/css/custom.css">
+<link rel="stylesheet" href="/sources/prism.css">
+<script src="/sources/prism.js"></script>
+
+</head>
+<body class="is-2-column">
+    <nav class="navbar navbar-main">
+    <div class="container">
+        <div class="navbar-brand is-flex-center">
+            <a class="navbar-item navbar-logo" href="/">
+            
+                water_mi&#39;s Blog
+            
+            </a>
+        </div>
+        <div class="navbar-menu">
+            
+            <div class="navbar-start">
+                
+                <a class="navbar-item" href="/archives">归档</a>
+                
+                <a class="navbar-item" href="/categories">分类</a>
+                
+                <a class="navbar-item" href="/tags">标签</a>
+                
+                <a class="navbar-item" href="/friends">友链</a>
+                
+                <a class="navbar-item" href="/about">关于</a>
+                
+                <a class="navbar-item" href="/feedback">反馈</a>
+                
+            </div>
+            
+            <div class="navbar-end">
+                
+                
+                <a class="navbar-item is-hidden-tablet catalogue" title="目录" href="javascript:;">
+                    <i class="fas fa-list-ul"></i>
+                </a>
+                
+                
+                <a class="navbar-item search" title="搜索" href="javascript:;">
+                    <i class="fas fa-search"></i>
+                </a>
+                
+            </div>
+        </div>
+    </div>
+</nav>
+    
+    <section class="section">
+        <div class="container">
+            <div class="columns">
+                <div class="column my-content is-8-tablet is-8-desktop is-8-widescreen has-order-2 column-main"><div class="card">
+    
+    <div class="card-content article ">
+        
+        <div class="level article-meta is-size-7 is-uppercase is-mobile is-overflow-x-auto">
+            <div class="level-left">
+                <time class="level-item has-text-grey" datetime="2018-12-24T04:42:23.000Z">2018-12-24</time>
+                
+                <div class="level-item">
+                <a class="has-link-grey -link" href="/categories/Solution/">Solution</a>
+                </div>
+                
+                
+                <span class="level-item has-text-grey">
+                    
+                    
+                    3 分钟 读完 (大约 439 个字)
+                </span>
+                
+            </div>
+        </div>
+        
+        <h1 class="title is-size-3 is-size-4-mobile has-text-weight-normal">
+            
+                CodeForces 809D Hitchhiking in the Baltic States（FHQ-Treap）
+            
+        </h1>
+        <div class="content">
+            <p>这里是简介<br><a id="more"></a></p>
+<h2 id="题意"><a href="#题意" class="headerlink" title="题意"></a>题意</h2><p>给你长度为$n$的序列，序列中的每个元素$i$有一个区间限制$[l_i,r_i]$，你从中选出一个子序列，并给它们标号$x_i$，要求满足 $∀i&lt;j，x_i&lt;x_j$，且$ ∀i，x_i∈[l_i,r_i]$。 问满足条件子序列的长度最长为多少？ </p>
+<p>其中$1\leq n\leq3\times 10^5\ 1\leq l_i\leq r_i\leq 10^9$</p>
+<h2 id="题解"><a href="#题解" class="headerlink" title="题解"></a>题解</h2><p>不妨设$f[i][j]$表示已经选到第$i$个，其中最大值为$j$最多能选几个。</p>
+<p>显然是开不下的…但是还记得$O(nlogn)$的$LIS$吗？它利用了二分栈！</p>
+<p>所以我们不妨考虑设$f[i][j]$表示当前选到第$i$个，已经选了$j$个的末尾最小元素。</p>
+<p>如果不选，显然$f[i+1][j]=f[i][j]$</p>
+<p>如果$r[i+1]&gt;f[i][j]$，那么，则有$f[i+1][j+1]=max(f[i][j]+1,l[i+1])$</p>
+<p>不难发现可以用滚动数组滚掉第一维，所以第一个方程直接作废：</p>
+<script type="math/tex; mode=display">
+f[j+1]=max(f[j]+1,l[i+1])</script><p>但是时间还是$O(n^2)$的啊，枚举一个$i$，枚举一个$j$。</p>
+<p>不急，咱们分开考虑，对于一个$l[i]&lt;f&lt;r[i]$</p>
+<p>它的当前$dp$值可以直接$+1$，那么位置也将$+1$因为多选了一个嘛。</p>
+<p>剩下的话，就是$f&lt;l[i]$的情况，直接就等于$l[i]$了。</p>
+<p>用一颗$FHQ-Treap$维护一下就行了。</p>
+<pre class="line-numbers"><code class="language-cpp">#include &lt;ctime&gt;
+#include &lt;cstdio&gt;
+#include &lt;cstdlib&gt;
+#include &lt;cstring&gt;
+#include &lt;algorithm&gt;
+
+template&lt;typename T&gt;
+void read(T &amp;x) {
+    int flag = 1; x = 0; char ch = getchar();
+    while(ch &lt; &#39;0&#39; || ch &gt; &#39;9&#39;) { if(ch == &#39;-&#39;) flag = -flag; ch = getchar(); }
+    while(ch &gt;= &#39;0&#39; &amp;&amp; ch &lt;= &#39;9&#39;) x = x * 10 + ch - &#39;0&#39;, ch = getchar(); x *= flag;
+}
+
+const int N = 3e5 + 10, Inf = 1e9 + 7;
+int n, l, r;
+int rt, tot, val[N], add[N], lc[N], rc[N], siz[N], pri[N];
+
+inline int node(int x) { val[++tot] = x, siz[tot] = 1, pri[tot] = rand(); return tot; }
+inline void pushdown(int o) {
+    if(add[o]) {
+        val[o] += add[o];
+        if(lc[o]) add[lc[o]] += add[o];
+        if(rc[o]) add[rc[o]] += add[o];
+        add[o] = 0;
+    }
+}
+int merge(int l, int r) {
+    if(!l || !r) return l + r;
+    pushdown(l), pushdown(r);
+    if(pri[l] &gt; pri[r]) { rc[l] = merge(rc[l], r); return l; }
+    else { lc[r] = merge(l, lc[r]); return r; }
+}
+void split(int o, int k, int &amp;l, int &amp;r) {
+    if(!o) { l = r = 0; return ; } pushdown(o);
+    if(val[o] &lt;= k) l = o, split(rc[o], k, rc[o], r);
+    else r = o, split(lc[o], k, l, lc[o]);
+}
+int min(int o) { pushdown(o); return lc[o] ? min(lc[o]) : val[o]; }
+int calc(int o) {
+    if(!o) return 0; pushdown(o);
+    return calc(lc[o]) + calc(rc[o]) + (val[o] &lt; Inf);
+}
+
+int main () {
+    read(n), srand(19260817); int x, y, k, p;
+    for(int i = 1; i &lt;= n; ++i) rt = merge(rt, node(i + Inf));
+    for(int i = 1; i &lt;= n; ++i) {
+        read(l), read(r);
+        split(rt, l, x, k), split(k, r, k, y);
+        if(k) add[k] += 1;
+        split(y, min(y) + 1, p, y);
+        rt = merge(merge(merge(x, node(l)), k), y);
+    } printf(&quot;%d\n&quot;, calc(rt));
+    return 0;
+}
+</code></pre>
+
+        </div>
+        
+        <div class="level is-size-7 is-uppercase">
+            <div class="level-start">
+                <div class="level-item">
+                    <span class="is-size-6 has-text-grey has-mr-7">#</span>
+                    <a class="has-link-grey -link" href="/tags/C-数据结构-平衡树/">[C++]数据结构-平衡树</a>
+                </div>
+            </div>
+        </div>
+        
+        
+        
+    </div>
+</div>
+
+
+
+
+
+<div class="card card-transparent">
+    <div class="level post-navigation is-flex-wrap is-mobile">
+        
+        <div class="level-start">
+            <a class="level level-item has-link-grey  article-nav-prev" href="/2018/12/24/23/">
+                <i class="level-item fas fa-chevron-left"></i>
+                <span class="level-item">Bzoj 2286 &amp; Luogu P2495 消耗战（LCA+虚树+欧拉序）</span>
+            </a>
+        </div>
+        
+        
+        <div class="level-end">
+            <a class="level level-item has-link-grey  article-nav-next" href="/2018/12/24/21/">
+                <span class="level-item">Bzoj 1014&amp;Luogu 4036 火星人Prefix（FHQ-Treap）</span>
+                <i class="level-item fas fa-chevron-right"></i>
+            </a>
+        </div>
+        
+    </div>
+</div>
+
+
+
+<div class="card">
+    <div class="card-content">
+        <h3 class="title is-5 has-text-weight-normal">评论</h3>
+        
+<div id="comment-container"></div>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/gitalk@1.4.1/dist/gitalk.css">
+<script src="https://cdn.jsdelivr.net/npm/gitalk@1.4.1/dist/gitalk.min.js"></script>
+<script>
+    var gitalk = new Gitalk({
+        clientID: '99c3b218e0b4321108cb',
+        clientSecret: 'fa4b5350aea691b728f36b3bc8fe22559d688817',
+        id: 'f3c28e835ea75fc557a85da67d29c99e',
+        repo: 'GitTalk',
+        owner: 'water-mi',
+        admin: "water-mi"
+    })
+    gitalk.render('comment-container')
+</script>
+
+    </div>
+</div>
+</div>
+                
+
+                
+
+
+
+
+<div class="column my-sidebar is-4-tablet is-4-desktop is-4-widescreen  has-order-3 column-right is-sticky">
+    
+        
+<div class="card widget">
+    <div class="card-content">
+        <nav class="level">
+            <div class="level-item has-text-centered">
+                <div>
+                    <img class="image is-128x128 has-mb-6" src="/sources/avatar.png" alt="water-mi">
+                    
+                    <p class="is-size-4 is-block">
+                        water-mi
+                    </p>
+                    
+                    
+                    <p class="is-size-6 is-block">
+                        Calm Down
+                    </p>
+                    
+                    
+                    <p class="is-size-6 is-flex is-flex-center has-text-grey">
+                        <i class="fas fa-map-marker-alt has-mr-7"></i>
+                        <span>Hunan Changsha, China</span>
+                    </p>
+                    
+                </div>
+            </div>
+        </nav>
+        <nav class="level is-mobile">
+            <div class="level-item has-text-centered is-marginless">
+                <div>
+                    <p class="heading">
+                        文章
+                    </p>
+                    <p class="title has-text-weight-normal">
+                        77
+                    </p>
+                </div>
+            </div>
+            <div class="level-item has-text-centered is-marginless">
+                <div>
+                    <p class="heading">
+                        分类
+                    </p>
+                    <p class="title has-text-weight-normal">
+                        4
+                    </p>
+                </div>
+            </div>
+            <div class="level-item has-text-centered is-marginless">
+                <div>
+                    <p class="heading">
+                        标签
+                    </p>
+                    <p class="title has-text-weight-normal">
+                        54
+                    </p>
+                </div>
+            </div>
+        </nav>
+        <div class="level">
+            <a class="level-item button is-link is-rounded" href="http://github.com/water-mi">
+                关注我</a>
+        </div>
+        
+        
+        <div class="level is-mobile">
+            
+            <a class="level-item button is-white is-marginless" target="_blank" title="Github" href="http://github.com/water-mi">
+                
+                <i class="fab fa-github"></i>
+                
+            </a>
+            
+            <a class="level-item button is-white is-marginless" target="_blank" title="Email me" href="mailto:13787781331@163.com">
+                
+                <i class="fa fa-fw fa-envelope"></i>
+                
+            </a>
+            
+        </div>
+        
+    </div>
+</div>
+    
+        
+<div class="card widget" id="toc">
+    <div class="card-content">
+        <div class="menu">
+            <h3 class="menu-label">
+                目录
+            </h3>
+            <ul class="menu-list"><li>
+        <a class="is-flex" href="#题意">
+        <span class="has-mr-6">1</span>
+        <span>题意</span>
+        </a></li><li>
+        <a class="is-flex" href="#题解">
+        <span class="has-mr-6">2</span>
+        <span>题解</span>
+        </a></li></ul>
+        </div>
+    </div>
+</div>
+
+    
+        
+
+
+    
+        
+<div class="card widget">
+    <div class="card-content">
+        <div class="menu">
+            <h3 class="menu-label">
+                分类
+            </h3>
+            <ul class="menu-list">
+            <li>
+        <a class="level is-marginless" href="/categories/Algorithm/">
+            <span class="level-start">
+                <span class="level-item">Algorithm</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">10</span>
+            </span>
+        </a></li><li>
+        <a class="level is-marginless" href="/categories/Diary/">
+            <span class="level-start">
+                <span class="level-item">Diary</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">2</span>
+            </span>
+        </a></li><li>
+        <a class="level is-marginless" href="/categories/Report/">
+            <span class="level-start">
+                <span class="level-item">Report</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">2</span>
+            </span>
+        </a></li><li>
+        <a class="level is-marginless" href="/categories/Solution/">
+            <span class="level-start">
+                <span class="level-item">Solution</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">62</span>
+            </span>
+        </a></li>
+            </ul>
+        </div>
+    </div>
+</div>
+    
+    
+</div>
+
+
+            </div>
+        </div>
+    </section>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/aplayer@1.10/dist/APlayer.min.css">
+<script src="https://cdn.jsdelivr.net/npm/aplayer@1.10/dist/APlayer.min.js"></script>
+<div id="aplayer" class="aplayer" data-id="112875926" data-server="netease" data-type="playlist" data-fixed="true" data-listfolded="true" data-volume="0.4">
+</div>
+<script src="https://unpkg.com/meting@1.2/dist/Meting.min.js"></script>
+<footer class="footer">
+    <div class="container">
+        <div class="level">
+            <div class="level-start has-text-centered-mobile">
+                <!--<a class="footer-logo is-block has-mb-6" href="/">
+	            
+                    water_mi&#39;s Blog
+                
+                </a>-->
+                <p class="is-size-7">
+                    &copy; 2018 - 2019
+                    water_mi
+                </p>
+				<p class="is-size-7">
+                    Powered by Hexo & Icarus
+                </p>
+            </div>
+            <div class="level-end">
+            
+                <div class="field has-addons is-flex-center-mobile has-mt-5-mobile is-flex-wrap is-flex-middle">
+                
+                
+                <p class="control">
+                    <a class="button is-white is-large" target="_blank" title="Creative Commons" href="https://creativecommons.org/">
+                        
+                        <i class="fab fa-creative-commons"></i>
+                        
+                    </a>
+                </p>
+                
+                <p class="control">
+                    <a class="button is-white is-large" target="_blank" title="Attribution" href="https://creativecommons.org/licenses/by-nc-nd/4.0/">
+                        
+                        <i class="fab fa-creative-commons-by"></i>
+                        
+                    </a>
+                </p>
+                
+                <p class="control">
+                    <a class="button is-white is-large" target="_blank" title="NonCommercial" href="https://creativecommons.org/licenses/by-nc-nd/4.0/">
+                        
+                        <i class="fab fa-creative-commons-nc"></i>
+                        
+                    </a>
+                </p>
+                
+                <p class="control">
+                    <a class="button is-white is-large" target="_blank" title="NoDerivatives" href="https://creativecommons.org/licenses/by-nc-nd/4.0/">
+                        
+                        <i class="fab fa-creative-commons-nd"></i>
+                        
+                    </a>
+                </p>
+                
+                </div>
+            
+            </div>
+        </div>
+    </div>
+</footer>
+
+    <script src="https://cdn.jsdelivr.net/npm/jquery@3.3.1/dist/jquery.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/moment@2.22.2/min/moment-with-locales.min.js"></script>
+<script>moment.locale("zh-CN");</script>
+
+
+    
+    
+    
+    <script src="/js/animation.js"></script>
+    
+
+    
+    
+    
+    <script src="https://cdn.jsdelivr.net/npm/lightgallery@1.6.8/dist/js/lightgallery.min.js" defer></script>
+    <script src="https://cdn.jsdelivr.net/npm/justifiedGallery@3.7.0/dist/js/jquery.justifiedGallery.min.js" defer></script>
+    <script src="/js/gallery.js" defer></script>
+    
+
+    
+    
+
+<div id="outdated">
+    <h6>Your browser is out-of-date!</h6>
+    <p>Update your browser to view this website correctly. <a id="btnUpdateBrowser" href="http://outdatedbrowser.com/">Update
+            my browser now </a></p>
+    <p class="last"><a href="#" id="btnCloseUpdateBrowser" title="Close">&times;</a></p>
+</div>
+<script src="https://cdn.jsdelivr.net/npm/outdatedbrowser@1.1.5/outdatedbrowser/outdatedbrowser.min.js" defer></script>
+<script>
+    document.addEventListener("DOMContentLoaded", function () {
+        outdatedBrowser({
+            bgColor: '#f25648',
+            color: '#ffffff',
+            lowerThan: 'flex'
+        });
+    });
+</script>
+
+
+    
+    
+<script src="https://cdn.jsdelivr.net/npm/mathjax@2.7.5/unpacked/MathJax.js?config=TeX-MML-AM_CHTML" defer></script>
+<script>
+document.addEventListener('DOMContentLoaded', function () {
+    MathJax.Hub.Config({
+        tex2jax: {inlineMath: [['$', '$']], displayMath: [['$$', '$$']]},
+        TeX: {equationNumbers: {autoNumber: "AMS"},
+              showProcessingMessages: false,
+              messageStyle: 'none'},
+        "HTML-CSS": {matchFontHeight: false},
+        SVG: {matchFontHeight: false},
+        CommonHTML: {matchFontHeight: false}
+    });
+ });
+</script>
+
+
+    
+    
+
+<a id="back-to-top" title="回到顶端" href="javascript:;">
+    <i class="fas fa-chevron-up"></i>
+</a>
+<script src="/js/back-to-top.js" defer></script>
+
+
+    
+    
+
+    
+    
+    
+    
+
+    
+    
+    
+    
+    
+    <script src="https://cdn.jsdelivr.net/npm/clipboard@2.0.4/dist/clipboard.min.js" defer></script>
+    <script src="/js/clipboard.js" defer></script>
+    
+
+    
+
+
+<script src="/js/main.js" defer></script>
+
+    
+    <div class="searchbox ins-search">
+    <div class="searchbox-container ins-search-container">
+        <div class="searchbox-input-wrapper">
+            <input type="text" class="searchbox-input ins-search-input" placeholder="想要查找什么...">
+            <span class="searchbox-close ins-close ins-selectable"><i class="fa fa-times-circle"></i></span>
+        </div>
+        <div class="searchbox-result-wrapper ins-section-wrapper">
+            <div class="ins-section-container"></div>
+        </div>
+    </div>
+</div>
+<script>
+    (function (window) {
+        var INSIGHT_CONFIG = {
+            TRANSLATION: {
+                POSTS: '文章',
+                PAGES: '页面',
+                CATEGORIES: '分类',
+                TAGS: '标签',
+                UNTITLED: '(无标题)',
+            },
+            CONTENT_URL: '/content.json',
+        };
+        window.INSIGHT_CONFIG = INSIGHT_CONFIG;
+    })(window);
+</script>
+<script src="/js/insight.js" defer></script>
+<link rel="stylesheet" href="/css/search.css">
+<link rel="stylesheet" href="/css/insight.css">
+    
+</body>
+</html>

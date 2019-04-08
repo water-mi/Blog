@@ -1,0 +1,764 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head><meta name="generator" content="Hexo 3.8.0">
+    <meta charset="utf-8">
+<title>树形背包学习笔记 - water_mi&#39;s Blog</title>
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+
+
+
+    <meta name="description" content="这里是简介">
+<meta name="keywords" content="[C++]动态规划-树形DP,[C++]动态规划-背包DP">
+<meta property="og:type" content="article">
+<meta property="og:title" content="树形背包学习笔记">
+<meta property="og:url" content="https://blog.water-mi.com/2018/12/24/5/index.html">
+<meta property="og:site_name" content="water_mi&#39;s Blog">
+<meta property="og:description" content="这里是简介">
+<meta property="og:locale" content="zh-CN">
+<meta property="og:updated_time" content="2019-01-15T07:06:42.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="树形背包学习笔记">
+<meta name="twitter:description" content="这里是简介">
+
+
+
+
+
+<link rel="icon" href="/images/favicon.svg">
+
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@0.7.2/css/bulma.css">
+<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.4.1/css/all.css">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Ubuntu:400,600|Source+Code+Pro">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/highlight.js@9.12.0/styles/tomorrow.css">
+
+
+    
+    
+    
+    <style>body>.footer,body>.navbar,body>.section{opacity:0}</style>
+    
+
+    
+    
+    
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/lightgallery@1.6.8/dist/css/lightgallery.min.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/justifiedGallery@3.7.0/dist/css/justifiedGallery.min.css">
+    
+
+    
+    
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/outdatedbrowser@1.1.5/outdatedbrowser/outdatedbrowser.min.css">
+
+
+    
+    
+
+    
+    
+
+<link rel="stylesheet" href="/css/back-to-top.css">
+
+
+    
+    
+
+    
+    
+    
+    
+
+    
+    
+<link rel="stylesheet" href="/css/progressbar.css">
+<script src="https://cdn.jsdelivr.net/npm/pace-js@1.0.2/pace.min.js"></script>
+
+    
+    
+    
+
+    
+
+
+<link rel="stylesheet" href="/css/style.css">
+<link rel="stylesheet" href="/css/custom.css">
+<link rel="stylesheet" href="/sources/prism.css">
+<script src="/sources/prism.js"></script>
+
+</head>
+<body class="is-2-column">
+    <nav class="navbar navbar-main">
+    <div class="container">
+        <div class="navbar-brand is-flex-center">
+            <a class="navbar-item navbar-logo" href="/">
+            
+                water_mi&#39;s Blog
+            
+            </a>
+        </div>
+        <div class="navbar-menu">
+            
+            <div class="navbar-start">
+                
+                <a class="navbar-item" href="/archives">归档</a>
+                
+                <a class="navbar-item" href="/categories">分类</a>
+                
+                <a class="navbar-item" href="/tags">标签</a>
+                
+                <a class="navbar-item" href="/friends">友链</a>
+                
+                <a class="navbar-item" href="/about">关于</a>
+                
+                <a class="navbar-item" href="/feedback">反馈</a>
+                
+            </div>
+            
+            <div class="navbar-end">
+                
+                
+                <a class="navbar-item is-hidden-tablet catalogue" title="目录" href="javascript:;">
+                    <i class="fas fa-list-ul"></i>
+                </a>
+                
+                
+                <a class="navbar-item search" title="搜索" href="javascript:;">
+                    <i class="fas fa-search"></i>
+                </a>
+                
+            </div>
+        </div>
+    </div>
+</nav>
+    
+    <section class="section">
+        <div class="container">
+            <div class="columns">
+                <div class="column my-content is-8-tablet is-8-desktop is-8-widescreen has-order-2 column-main"><div class="card">
+    
+    <div class="card-content article ">
+        
+        <div class="level article-meta is-size-7 is-uppercase is-mobile is-overflow-x-auto">
+            <div class="level-left">
+                <time class="level-item has-text-grey" datetime="2018-12-24T03:23:44.000Z">2018-12-24</time>
+                
+                <div class="level-item">
+                <a class="has-link-grey -link" href="/categories/Algorithm/">Algorithm</a>
+                </div>
+                
+                
+                <span class="level-item has-text-grey">
+                    
+                    
+                    8 分钟 读完 (大约 1240 个字)
+                </span>
+                
+            </div>
+        </div>
+        
+        <h1 class="title is-size-3 is-size-4-mobile has-text-weight-normal">
+            
+                树形背包学习笔记
+            
+        </h1>
+        <div class="content">
+            <p>这里是简介<br><a id="more"></a></p>
+<h2 id="树形背包的一般形式"><a href="#树形背包的一般形式" class="headerlink" title="树形背包的一般形式"></a>树形背包的一般形式</h2><p>给定一棵有$n$个节点的点权树，要求你从中选出$m$个节点，使得这些选出的节点的点权和最大，一个节点能被选当且仅当其父亲节点被选中，根节点可以直接选。</p>
+<h2 id="n-3-解法"><a href="#n-3-解法" class="headerlink" title="$n^3$解法"></a>$n^3$解法</h2><h3 id="原理"><a href="#原理" class="headerlink" title="原理"></a>原理</h3><p>考虑设$f[u][i]$表示在$u$的子树中选择$i$个节点（包括它本身）的最大贡献，则可列出以下转移方程。</p>
+<script type="math/tex; mode=display">
+f[u][i]=max(f[u][j]+f[v][i-j]+d[v])\ [j=1...i-1]</script><p>其中$d[v]$表示点$v$的点权，$i-j$表示在子树$v$中选择$i-j$个节点。</p>
+<p>由于遍历整棵树是$\Theta(n)$的，而选取$i$和$j$是$O(m^2)$的，所以整个程序的复杂度就是$O(nm^2)$的。</p>
+<h3 id="例题"><a href="#例题" class="headerlink" title="例题"></a>例题</h3><p><a href="https://www.luogu.org/problemnew/show/P2014" target="_blank" rel="noopener">Luogu P2014 选课</a></p>
+<p>这是一道树形背包的模板题，可以将题目转化为在$n+1$个节点中选$m+1$个节点。于是最后的答案就是$f[0][m+1]$。</p>
+<pre class="line-numbers"><code class="language-cpp">#include &lt;cstdio&gt;
+#include &lt;algorithm&gt;
+using std::max;
+
+const int N = 3e2 + 10, M = 3e2 + 10;
+int n, m, f[N][N], s[N], son[N][N];
+
+void dfs (int u) {
+    for (int i = 1; i &lt;= son[u][0]; ++i) {
+        int v = son[u][i]; dfs(v);
+        for (int j = m + 1; j &gt;= 1; --j)
+            for (int k = 0; k &lt; j; ++k)
+                f[u][j] = max(f[u][j], f[u][j - k] + f[v][k]); 
+    }
+}
+
+int main () {
+    scanf (&quot;%d%d&quot;, &amp;n, &amp;m);
+    for (int i = 1, fa; i &lt;= n; ++i) {
+        scanf (&quot;%d%d&quot;, &amp;fa, s + i);
+        f[i][1] = s[i];
+        son[fa][++son[fa][0]] = i;
+    }
+    dfs(0);
+    printf (&quot;%d\n&quot;, f[0][m + 1]);
+    return 0;
+}
+</code></pre>
+<h2 id="n-2-解法"><a href="#n-2-解法" class="headerlink" title="$n^2$解法"></a>$n^2$解法</h2><p style="color: red;">警告：此算法可能思维难度较大，而且一般联赛不会考（但不排除作为压轴题考出），视情况阅读！</p>
+
+<hr>
+<h3 id="原理-1"><a href="#原理-1" class="headerlink" title="原理"></a>原理</h3><p>显然，$n^3$算法的时间开销是很$Big$的，比如这道题：<a href="https://www.luogu.org/problemnew/show/P4322" target="_blank" rel="noopener">洛谷 P4322 最佳团体</a>。</p>
+<p>此题在$01$分数规划后采取树形背包$check$，但是，$nm^2log$的时间复杂度是不允许，考虑优化树形背包的$check$过程</p>
+<p>首先，既然要优化，我们就得知道瓶颈在哪。瓶颈在于，我们是一边$dfs$一边更新的，由于要遍历子树，我们同时还要知道选择多少个节点，那么我们是否可以先跑一遍$dfs$处理出$dfs$序然后根据$dfs$序，来更新。</p>
+<p>设$f[i][j]$为当前$dp$到$dfs$序为$i$的点，目前已经选了$j$个节点。则有转移方程（$d[i]$表示点权）：</p>
+<blockquote>
+<p>1.选取当前节点：</p>
+</blockquote>
+<script type="math/tex; mode=display">
+f[i+1][j+1]=f[i][j]+d[i]</script><p>如果选了这个点，则在$dfs$序后一个节点要么是它的子节点，要么下一棵子树（则证明其没有子节点）。</p>
+<blockquote>
+<p>2.不选当前节点：</p>
+</blockquote>
+<script type="math/tex; mode=display">
+f[nx[i]][j]=f[i][j]</script><p>其中$nx[i]$表示下一棵子树，因为你没选这个点，当然不能选择其子节点。</p>
+<p>由于$dfs$序为$\Theta(n)$的，然后枚举$j$为$O(m)$的，所以总复杂度为$O(nmlog)$。</p>
+<h3 id="例题-1"><a href="#例题-1" class="headerlink" title="例题"></a>例题</h3><p>同样是<a href="https://www.luogu.org/problemnew/show/P2014" target="_blank" rel="noopener">Luogu P2014 选课</a></p>
+<pre class="line-numbers"><code class="language-cpp">#include &lt;cstdio&gt;
+#include &lt;algorithm&gt;
+using std::min;
+typedef long long ll;
+
+const int N = 3e2 + 10, M = 3e2 + 10, Inf = 1e9 + 7;
+int n, m, d[N], s[N], dfn[N], son[N][N], time, f[N][N], nx[N];
+inline void upt (int &amp;a, int b) { if(a &lt; b) a = b; }
+
+void Init_dfs(int u) {
+    dfn[u] = time++;
+    for (int i = 1; i &lt;= son[u][0]; ++i)
+        Init_dfs(son[u][i]);
+    nx[dfn[u]] = time;
+}
+
+void Doit_dp() {
+    for (int i = 1; i &lt;= n; ++i)
+        d[dfn[i]] = s[i];
+    for (int i = 1; i &lt;= n + 1; ++i)
+        for (int j = 0; j &lt;= m; ++j)
+            f[i][j] = -Inf;
+    for (int i = 0; i &lt;= n; ++i)
+        for (int j = 0; j &lt;= min(i, m); ++j) {
+            upt(f[i + 1][j + 1], f[i][j] + d[i]);
+            upt(f[nx[i]][j], f[i][j]);
+        }
+}
+
+int main () {
+    scanf(&quot;%d%d&quot;, &amp;n, &amp;m); ++m;
+    for (int i = 1, fa; i &lt;= n; ++i) {
+        scanf(&quot;%d%d&quot;, &amp;fa, s + i);
+        son[fa][++son[fa][0]] = i;
+    }
+    Init_dfs(0);//预处理dfs
+    Doit_dp();//动态规划
+    printf(&quot;%d\n&quot;, f[n + 1][m]);
+    return 0;
+}
+</code></pre>
+<hr>
+<p>之前我们提到的<a href="https://www.luogu.org/problemnew/show/P4322" target="_blank" rel="noopener">洛谷 P4322 最佳团体</a>，就是用$01$分数规划&amp;树形背包来解决的</p>
+<pre class="line-numbers"><code class="language-cpp">// luogu-judger-enable-o2
+#include &lt;cstdio&gt;
+#include &lt;algorithm&gt;
+using std::min;
+using std::max;
+
+const int N = 3e3 + 10, inf = 1e9 + 7;
+const double eps = 1e-5;
+int n, K, s[N], p[N], son[N][N], dfn[N], time, nx[N];
+int from[N], to[N], nxt[N], cnt;//Edges
+double f[N][N], d[N];
+
+inline void addEdge (int u, int v) {
+    to[++cnt] = v, nxt[cnt] = from[u], from[u] = cnt;
+}
+
+inline void upt(double &amp;a, double b) {
+    if (a &lt; b) a = b;
+}
+
+void dfs (int u) {
+    dfn[u] = time++;
+    for (int i = from[u]; i; i = nxt[i]) dfs(to[i]);
+    nx[dfn[u]] = time;
+}
+
+inline bool check (double k) {
+    for (int i = 1; i &lt;= n; ++i) 
+        d[dfn[i]] = p[i] - k * s[i];
+    for (int i = 1; i &lt;= n + 1; ++i)
+        for (int j = 0; j &lt;= K; ++j)
+            f[i][j] = -inf;
+    for (int i = 0; i &lt;= n; ++i)
+        for (int j = 0; j &lt;= min(i, K); ++j) {
+            upt(f[i + 1][j + 1], f[i][j] + d[i]);
+            upt(f[nx[i]][j], f[i][j]);
+        }
+    return f[n + 1][K] &gt;= eps;
+}
+
+int main () {
+    scanf(&quot;%d%d&quot;, &amp;K, &amp;n); ++K;
+    for (int i = 1, fa; i &lt;= n; ++i)  {
+        scanf(&quot;%d%d%d&quot;, s + i, p + i, &amp;fa);
+        addEdge(fa, i);
+    }
+    dfs(0);
+    double l = 0, r = 10000, ans;
+    while (r - l &gt;= eps) {
+        double mid = (l + r) * 0.5;
+        if (check(mid)) ans = mid, l = mid + eps;
+        else r = mid - eps;
+    }
+    printf (&quot;%.3lf\n&quot;, ans);
+    return 0;
+}
+</code></pre>
+
+        </div>
+        
+        <div class="level is-size-7 is-uppercase">
+            <div class="level-start">
+                <div class="level-item">
+                    <span class="is-size-6 has-text-grey has-mr-7">#</span>
+                    <a class="has-link-grey -link" href="/tags/C-动态规划-树形DP/">[C++]动态规划-树形DP</a>, <a class="has-link-grey -link" href="/tags/C-动态规划-背包DP/">[C++]动态规划-背包DP</a>
+                </div>
+            </div>
+        </div>
+        
+        
+        
+    </div>
+</div>
+
+
+
+
+
+<div class="card card-transparent">
+    <div class="level post-navigation is-flex-wrap is-mobile">
+        
+        <div class="level-start">
+            <a class="level level-item has-link-grey  article-nav-prev" href="/2018/12/24/6/">
+                <i class="level-item fas fa-chevron-left"></i>
+                <span class="level-item">cdq分治学习笔记</span>
+            </a>
+        </div>
+        
+        
+        <div class="level-end">
+            <a class="level level-item has-link-grey  article-nav-next" href="/2018/12/24/4/">
+                <span class="level-item">逆序对的两种求法（复习）</span>
+                <i class="level-item fas fa-chevron-right"></i>
+            </a>
+        </div>
+        
+    </div>
+</div>
+
+
+
+<div class="card">
+    <div class="card-content">
+        <h3 class="title is-5 has-text-weight-normal">评论</h3>
+        
+<div id="comment-container"></div>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/gitalk@1.4.1/dist/gitalk.css">
+<script src="https://cdn.jsdelivr.net/npm/gitalk@1.4.1/dist/gitalk.min.js"></script>
+<script>
+    var gitalk = new Gitalk({
+        clientID: '99c3b218e0b4321108cb',
+        clientSecret: 'fa4b5350aea691b728f36b3bc8fe22559d688817',
+        id: '9a001bc020639aa5ca7a654f05012b24',
+        repo: 'GitTalk',
+        owner: 'water-mi',
+        admin: "water-mi"
+    })
+    gitalk.render('comment-container')
+</script>
+
+    </div>
+</div>
+</div>
+                
+
+                
+
+
+
+
+<div class="column my-sidebar is-4-tablet is-4-desktop is-4-widescreen  has-order-3 column-right is-sticky">
+    
+        
+<div class="card widget">
+    <div class="card-content">
+        <nav class="level">
+            <div class="level-item has-text-centered">
+                <div>
+                    <img class="image is-128x128 has-mb-6" src="/sources/avatar.png" alt="water-mi">
+                    
+                    <p class="is-size-4 is-block">
+                        water-mi
+                    </p>
+                    
+                    
+                    <p class="is-size-6 is-block">
+                        Calm Down
+                    </p>
+                    
+                    
+                    <p class="is-size-6 is-flex is-flex-center has-text-grey">
+                        <i class="fas fa-map-marker-alt has-mr-7"></i>
+                        <span>Hunan Changsha, China</span>
+                    </p>
+                    
+                </div>
+            </div>
+        </nav>
+        <nav class="level is-mobile">
+            <div class="level-item has-text-centered is-marginless">
+                <div>
+                    <p class="heading">
+                        文章
+                    </p>
+                    <p class="title has-text-weight-normal">
+                        77
+                    </p>
+                </div>
+            </div>
+            <div class="level-item has-text-centered is-marginless">
+                <div>
+                    <p class="heading">
+                        分类
+                    </p>
+                    <p class="title has-text-weight-normal">
+                        4
+                    </p>
+                </div>
+            </div>
+            <div class="level-item has-text-centered is-marginless">
+                <div>
+                    <p class="heading">
+                        标签
+                    </p>
+                    <p class="title has-text-weight-normal">
+                        54
+                    </p>
+                </div>
+            </div>
+        </nav>
+        <div class="level">
+            <a class="level-item button is-link is-rounded" href="http://github.com/water-mi">
+                关注我</a>
+        </div>
+        
+        
+        <div class="level is-mobile">
+            
+            <a class="level-item button is-white is-marginless" target="_blank" title="Github" href="http://github.com/water-mi">
+                
+                <i class="fab fa-github"></i>
+                
+            </a>
+            
+            <a class="level-item button is-white is-marginless" target="_blank" title="Email me" href="mailto:13787781331@163.com">
+                
+                <i class="fa fa-fw fa-envelope"></i>
+                
+            </a>
+            
+        </div>
+        
+    </div>
+</div>
+    
+        
+<div class="card widget" id="toc">
+    <div class="card-content">
+        <div class="menu">
+            <h3 class="menu-label">
+                目录
+            </h3>
+            <ul class="menu-list"><li>
+        <a class="is-flex" href="#树形背包的一般形式">
+        <span class="has-mr-6">1</span>
+        <span>树形背包的一般形式</span>
+        </a></li><li>
+        <a class="is-flex" href="#n-3-解法">
+        <span class="has-mr-6">2</span>
+        <span>$n^3$解法</span>
+        </a><ul class="menu-list"><li>
+        <a class="is-flex" href="#原理">
+        <span class="has-mr-6">2.1</span>
+        <span>原理</span>
+        </a></li><li>
+        <a class="is-flex" href="#例题">
+        <span class="has-mr-6">2.2</span>
+        <span>例题</span>
+        </a></li></ul></li><li>
+        <a class="is-flex" href="#n-2-解法">
+        <span class="has-mr-6">3</span>
+        <span>$n^2$解法</span>
+        </a><ul class="menu-list"><li>
+        <a class="is-flex" href="#原理-1">
+        <span class="has-mr-6">3.1</span>
+        <span>原理</span>
+        </a></li><li>
+        <a class="is-flex" href="#例题-1">
+        <span class="has-mr-6">3.2</span>
+        <span>例题</span>
+        </a></li></ul></li></ul>
+        </div>
+    </div>
+</div>
+
+    
+        
+
+
+    
+        
+<div class="card widget">
+    <div class="card-content">
+        <div class="menu">
+            <h3 class="menu-label">
+                分类
+            </h3>
+            <ul class="menu-list">
+            <li>
+        <a class="level is-marginless" href="/categories/Algorithm/">
+            <span class="level-start">
+                <span class="level-item">Algorithm</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">10</span>
+            </span>
+        </a></li><li>
+        <a class="level is-marginless" href="/categories/Diary/">
+            <span class="level-start">
+                <span class="level-item">Diary</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">2</span>
+            </span>
+        </a></li><li>
+        <a class="level is-marginless" href="/categories/Report/">
+            <span class="level-start">
+                <span class="level-item">Report</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">2</span>
+            </span>
+        </a></li><li>
+        <a class="level is-marginless" href="/categories/Solution/">
+            <span class="level-start">
+                <span class="level-item">Solution</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">62</span>
+            </span>
+        </a></li>
+            </ul>
+        </div>
+    </div>
+</div>
+    
+    
+</div>
+
+
+            </div>
+        </div>
+    </section>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/aplayer@1.10/dist/APlayer.min.css">
+<script src="https://cdn.jsdelivr.net/npm/aplayer@1.10/dist/APlayer.min.js"></script>
+<div id="aplayer" class="aplayer" data-id="112875926" data-server="netease" data-type="playlist" data-fixed="true" data-listfolded="true" data-volume="0.4">
+</div>
+<script src="https://unpkg.com/meting@1.2/dist/Meting.min.js"></script>
+<footer class="footer">
+    <div class="container">
+        <div class="level">
+            <div class="level-start has-text-centered-mobile">
+                <!--<a class="footer-logo is-block has-mb-6" href="/">
+	            
+                    water_mi&#39;s Blog
+                
+                </a>-->
+                <p class="is-size-7">
+                    &copy; 2018 - 2019
+                    water_mi
+                </p>
+				<p class="is-size-7">
+                    Powered by Hexo & Icarus
+                </p>
+            </div>
+            <div class="level-end">
+            
+                <div class="field has-addons is-flex-center-mobile has-mt-5-mobile is-flex-wrap is-flex-middle">
+                
+                
+                <p class="control">
+                    <a class="button is-white is-large" target="_blank" title="Creative Commons" href="https://creativecommons.org/">
+                        
+                        <i class="fab fa-creative-commons"></i>
+                        
+                    </a>
+                </p>
+                
+                <p class="control">
+                    <a class="button is-white is-large" target="_blank" title="Attribution" href="https://creativecommons.org/licenses/by-nc-nd/4.0/">
+                        
+                        <i class="fab fa-creative-commons-by"></i>
+                        
+                    </a>
+                </p>
+                
+                <p class="control">
+                    <a class="button is-white is-large" target="_blank" title="NonCommercial" href="https://creativecommons.org/licenses/by-nc-nd/4.0/">
+                        
+                        <i class="fab fa-creative-commons-nc"></i>
+                        
+                    </a>
+                </p>
+                
+                <p class="control">
+                    <a class="button is-white is-large" target="_blank" title="NoDerivatives" href="https://creativecommons.org/licenses/by-nc-nd/4.0/">
+                        
+                        <i class="fab fa-creative-commons-nd"></i>
+                        
+                    </a>
+                </p>
+                
+                </div>
+            
+            </div>
+        </div>
+    </div>
+</footer>
+
+    <script src="https://cdn.jsdelivr.net/npm/jquery@3.3.1/dist/jquery.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/moment@2.22.2/min/moment-with-locales.min.js"></script>
+<script>moment.locale("zh-CN");</script>
+
+
+    
+    
+    
+    <script src="/js/animation.js"></script>
+    
+
+    
+    
+    
+    <script src="https://cdn.jsdelivr.net/npm/lightgallery@1.6.8/dist/js/lightgallery.min.js" defer></script>
+    <script src="https://cdn.jsdelivr.net/npm/justifiedGallery@3.7.0/dist/js/jquery.justifiedGallery.min.js" defer></script>
+    <script src="/js/gallery.js" defer></script>
+    
+
+    
+    
+
+<div id="outdated">
+    <h6>Your browser is out-of-date!</h6>
+    <p>Update your browser to view this website correctly. <a id="btnUpdateBrowser" href="http://outdatedbrowser.com/">Update
+            my browser now </a></p>
+    <p class="last"><a href="#" id="btnCloseUpdateBrowser" title="Close">&times;</a></p>
+</div>
+<script src="https://cdn.jsdelivr.net/npm/outdatedbrowser@1.1.5/outdatedbrowser/outdatedbrowser.min.js" defer></script>
+<script>
+    document.addEventListener("DOMContentLoaded", function () {
+        outdatedBrowser({
+            bgColor: '#f25648',
+            color: '#ffffff',
+            lowerThan: 'flex'
+        });
+    });
+</script>
+
+
+    
+    
+<script src="https://cdn.jsdelivr.net/npm/mathjax@2.7.5/unpacked/MathJax.js?config=TeX-MML-AM_CHTML" defer></script>
+<script>
+document.addEventListener('DOMContentLoaded', function () {
+    MathJax.Hub.Config({
+        tex2jax: {inlineMath: [['$', '$']], displayMath: [['$$', '$$']]},
+        TeX: {equationNumbers: {autoNumber: "AMS"},
+              showProcessingMessages: false,
+              messageStyle: 'none'},
+        "HTML-CSS": {matchFontHeight: false},
+        SVG: {matchFontHeight: false},
+        CommonHTML: {matchFontHeight: false}
+    });
+ });
+</script>
+
+
+    
+    
+
+<a id="back-to-top" title="回到顶端" href="javascript:;">
+    <i class="fas fa-chevron-up"></i>
+</a>
+<script src="/js/back-to-top.js" defer></script>
+
+
+    
+    
+
+    
+    
+    
+    
+
+    
+    
+    
+    
+    
+    <script src="https://cdn.jsdelivr.net/npm/clipboard@2.0.4/dist/clipboard.min.js" defer></script>
+    <script src="/js/clipboard.js" defer></script>
+    
+
+    
+
+
+<script src="/js/main.js" defer></script>
+
+    
+    <div class="searchbox ins-search">
+    <div class="searchbox-container ins-search-container">
+        <div class="searchbox-input-wrapper">
+            <input type="text" class="searchbox-input ins-search-input" placeholder="想要查找什么...">
+            <span class="searchbox-close ins-close ins-selectable"><i class="fa fa-times-circle"></i></span>
+        </div>
+        <div class="searchbox-result-wrapper ins-section-wrapper">
+            <div class="ins-section-container"></div>
+        </div>
+    </div>
+</div>
+<script>
+    (function (window) {
+        var INSIGHT_CONFIG = {
+            TRANSLATION: {
+                POSTS: '文章',
+                PAGES: '页面',
+                CATEGORIES: '分类',
+                TAGS: '标签',
+                UNTITLED: '(无标题)',
+            },
+            CONTENT_URL: '/content.json',
+        };
+        window.INSIGHT_CONFIG = INSIGHT_CONFIG;
+    })(window);
+</script>
+<script src="/js/insight.js" defer></script>
+<link rel="stylesheet" href="/css/search.css">
+<link rel="stylesheet" href="/css/insight.css">
+    
+</body>
+</html>
