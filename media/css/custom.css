@@ -1,0 +1,22 @@
+.pisces .subtitle { color: #eeeeee !important; }
+.next-md-body pre code {
+    padding: 2px !important;
+}
+pre[class*=language-].line-numbers {
+    margin-bottom: 0px;
+    border-bottom-width: 0px;
+    padding-bottom: 0px;
+}
+div.code-toolbar {
+    font-size: 12px !important;
+}
+.markdownIt-TOC a:hover {
+    color: #bbb !important;
+}
+.markdownIt-TOC a {
+    color: #000 !important;
+}
+.active-current > a {
+    color: #fc6423 !important;
+    border-bottom-color: #fc6423 !important;
+}
